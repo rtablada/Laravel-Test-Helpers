@@ -21,24 +21,24 @@ trait ModelHelpers {
         $this->assertFalse($model->validate(), 'Did not expect model to pass validation.');
     }
 
-    public function assertBelongsToMany($relation, $class, $relatedClass = null, $key = null)
+    public function assertBelongsToMany($methodName, $class, $relatedClass = null, $key = null)
     {
-        $this->assertRelationship($relation, $class, 'belongsToMany', $relatedClass, $key);
+        $this->assertRelationship($methodName, $class, 'belongsToMany', $relatedClass, $key);
     }
 
-    public function assertBelongsTo($relation, $class, $relatedClass = null, $key = null)
+    public function assertBelongsTo($methodName, $class, $relatedClass = null, $key = null)
     {
-        $this->assertRelationship($relation, $class, 'belongsTo', $relatedClass, $key);
+        $this->assertRelationship($methodName, $class, 'belongsTo', $relatedClass, $key);
     }
 
-    public function assertHasMany($relation, $class, $relatedClass = null, $key = null)
+    public function assertHasMany($methodName, $class, $relatedClass = null, $key = null)
     {
-        $this->assertRelationship($relation, $class, 'hasMany', $relatedClass, $key);
+        $this->assertRelationship($methodName, $class, 'hasMany', $relatedClass, $key);
     }
 
-    public function assertHasOne($relation, $class, $relatedClass = null, $key = null)
+    public function assertHasOne($methodName, $class, $relatedClass = null, $key = null)
     {
-        $this->assertRelationship($relation, $class, 'hasOne', $relatedClass, $key);
+        $this->assertRelationship($methodName, $class, 'hasOne', $relatedClass, $key);
     }
 
     public function assertRespondsTo($method, $class, $message = null)
@@ -51,13 +51,13 @@ trait ModelHelpers {
         );
     }
 
-    public function assertRelationship($relationship, $class, $type, $relatedClass = null, $key = null)
+    public function assertRelationship($methodName, $class, $type, $relatedClass = null, $key = null)
     {
         $relatedClass = $relatedClass
             ? str_replace('\\', '\\\\', $relatedClass)
-            : str_singular($relationship);
+            : str_singular($methodName);
 
-        $this->assertRespondsTo($relationship, $class);
+        $this->assertRespondsTo($methodName, $class);
 
         $class = Mockery::mock($class."[$type]");
 
@@ -71,6 +71,6 @@ trait ModelHelpers {
               ->once();
         }
 
-        $class->$relationship();
+        $class->$methodName();
     }
 }
