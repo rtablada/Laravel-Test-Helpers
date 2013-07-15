@@ -21,14 +21,14 @@ trait ModelHelpers {
         $this->assertFalse($model->validate(), 'Did not expect model to pass validation.');
     }
 
-    public function assertBelongsToMany($parent, $child)
+    public function assertBelongsToMany($relation, $class)
     {
-        $this->assertRelationship($parent, $child, 'belongsToMany');
+        $this->assertRelationship($relation, $class, 'belongsToMany');
     }
 
-    public function assertBelongsTo($parent, $child)
+    public function assertBelongsTo($relation, $class)
     {
-        $this->assertRelationship($parent, $child, 'belongsTo');
+        $this->assertRelationship($relation, $class, 'belongsTo');
     }
 
     public function assertHasMany($relation, $class)
